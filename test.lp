@@ -22,10 +22,27 @@
 
 % #show tuple/4.
 
+% p(a; b).
+
+% { q(X, Y) } = 1 :- p(X), p(Y).
+
+% { p(a); q(b) } .
+% :- not p(a), not q(b).
+
+% 1 { f(1, 3); f(1, 2); f(3, 4) } .
+% :- f(X, Y1), f(X, Y2), Y1 != Y2.
 
 
-#const k = 12.
+p(1, 1).
+q(X) :- X = 1..2, not p(X, _).
 
-div_not_by_one(X) :- X = 1..10, I = 2..X-1, X\I = 0.
 
-coprime(X) :- X = 1..10, not div_not_by_one(X).
+% ?? answer 4 is { p(1), p(2) }
+% constraint: 
+%   not (p(2) and not p(1))
+%   not p(2) and not not p(1)
+%   not p(2) and p(1)
+% vragen aan jesse
+
+% 1 { p(1..3) } 2 .
+% :- p(2), not p(1).
