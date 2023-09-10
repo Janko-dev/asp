@@ -32,17 +32,40 @@
 % 1 { f(1, 3); f(1, 2); f(3, 4) } .
 % :- f(X, Y1), f(X, Y2), Y1 != Y2.
 
+% 3 * (2 + 1)
 
-p(1, 1).
-q(X) :- X = 1..2, not p(X, _).
+% penguin(tweety).
+
+% flies(X) :- bird(X), not -flies(X).
+% bird(X) :- penguin(X).
+% -flies(X) :- penguin(X).
 
 
-% ?? answer 4 is { p(1), p(2) }
-% constraint: 
-%   not (p(2) and not p(1))
-%   not p(2) and not not p(1)
-%   not p(2) and p(1)
-% vragen aan jesse
+% cares(X, Y) :- parent(X, Y),
+%                 not ab(d_cares(X, Y)),
+%                 not -cares(X, Y).
 
-% 1 { p(1..3) } 2 .
-% :- p(2), not p(1).
+% satisfiable
+%  {p(b), p(a), p(c)} not minimal
+%  {p(a), p(c)} not minimal
+%  {p(c)} Minimal!!
+% p(a) :- p(b). 
+% p(c).
+
+% satisfiable
+%  {p(a), p(c)} Minimal!!
+% p(a) :- not p(b). 
+% p(c).
+
+% p(a) :- not p(b), -p(c).
+% p(b) :- not p(a), -p(c).
+% -p(a) :- not p(a).
+% -p(b) :- not p(b).
+% -p(c) :- not p(c).
+
+% -p(X) :- not p(X).
+
+
+% p(a)
+
+
