@@ -6,5 +6,5 @@ Answer Set programming repo with notes and examples
 
 ### grid visualisation
 ```bash
-$ examples/grid_visualisation/build.sh
+$ examples/game_of_life/build.sh <ITERS>
 ```

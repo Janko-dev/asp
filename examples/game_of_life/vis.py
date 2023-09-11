@@ -6,13 +6,12 @@ import json
 file_name = sys.argv[1]
 f = open(file_name)
 
-data = json.load(f)["Call"][0]["Witnesses"][0]["Value"]
+data = json.load(f)
 
+data = data["Call"][0]["Witnesses"][0]["Value"]
 
 # parse "grid(R, C, X)" as [R, C, X]
 data = [tuple(int(x) for x in el[5:-1].split(",")) for el in data]
-
-print(data)
 
 rows = max(data, key=lambda x: x[0])[0]
 cols = max(data, key=lambda x: x[1])[1]
@@ -23,6 +22,8 @@ for (r, c, x) in data:
     mat[r-1][c-1] = x
 
 grid = np.array(mat)
+
+# print(grid)
 
 plt.imshow(grid)
 plt.show()
