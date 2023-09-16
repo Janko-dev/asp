@@ -41,5 +41,5 @@ is_a(abby, car).
 % define membership
 member(X, C) :- is_a(X, C).
 member(X, C) :- is_a(X, C1), subclass(C1, C).
-
-#show member/2.
+-member(X, Y) :- object(X), class(Y), not member(X, Y).
+#show -member/2.

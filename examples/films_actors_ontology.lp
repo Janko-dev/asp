@@ -17,9 +17,9 @@ plays_in(jason_statham, snatch).
 
 % X and Y play in the same movie M
 same_film(X, Y, M) :- plays_in(X, M), 
-                       plays_in(Y, M), 
-                       X != Y, 
-                       not same_film(Y, X, M).
+                      plays_in(Y, M), 
+                      X != Y, 
+                      not same_film(Y, X, M).
 
 % X does not play in movie M
 -plays_in(X, M) :- actor(X), 
