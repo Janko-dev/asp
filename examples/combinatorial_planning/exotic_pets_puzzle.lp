@@ -8,7 +8,6 @@ pet(iguana; jackal; cobra; llama).
 { owns(full_name(F, L), P) : full_name(F, L) } = 1 :- pet(P).
 
 :- owns(full_name(F, L), P1), owns(full_name(F, L), P2), P1 != P2.
-
 :- owns(full_name(F, L1), _), owns(full_name(F, L2), _), L1 != L2.
 :- owns(full_name(F1, L), _), owns(full_name(F2, L), _), F1 != F2.
 
