@@ -1,4 +1,4 @@
-% Traveling salesmen problem
+% Travelling salesmen problem
 % find shortest path that visits all cities exactly once
 
 % define timesteps 1..n where n is the number of cities
@@ -13,7 +13,7 @@ edge(beek, sittard, 10).
 edge(maastricht, sittard, 25).
 edge(beek, maastricht, 10).
 
-% distance between cities is transitive
+% distance between cities is symmetric
 edge(X, Y, C) :- edge(Y, X, C).
 
 % for each timestep, create answer sets for every possible city

@@ -1,4 +1,4 @@
-% Traveling salesmen problem
+% Travelling salesmen problem
 % find shortest path that visits all cities exactly once
 
 % define timesteps 1..n where n is the number of cities
