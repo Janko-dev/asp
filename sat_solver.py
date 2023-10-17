@@ -73,9 +73,9 @@ def sat(I0, F0: Formula):
         return sat(I, F1)
 
 # formula; X1 & (-X1 | X2 | X3) & (-X1 | X4)
-f = Formula([["X1"], ["-X1", "X2", "X3"], ["-X1", "X4"]])
+# f = Formula([["X1"], ["-X1", "X2", "X3"], ["-X1", "X4"]])
 
-# f = Formula([["X1", "X2"], ["-X2"]])
+f = Formula([["p", "q"], ["-p", "-q"], ["p", "s", "r"]])
 
 I, X = sat(set(), f)
 
