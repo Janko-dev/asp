@@ -22,3 +22,4 @@ ctl.assign_external(Function('d', [Number(2), Number(42)]), True)
 
 # solve grounded program and print to stdout
 ctl.solve(on_model=print)
+

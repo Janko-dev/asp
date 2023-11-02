@@ -1,4 +1,3 @@
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % T_{meta}^n encoding with n = 2 of:
 % - B = {q <- r}
@@ -44,9 +43,7 @@ length(r5, 2).
 :- #sum{ X, R : length(R, X), active(R) } != n.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% To test whether rules from the search space SM are in the set of positive solutions.
-% input: active/1 with rule id. 
-% output unsat when there is no positive example that covers the rule.
+% Generate the powerset of active rules based on rule ID 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program generate.
 rule_id(r1; r2; r3; r4; r5).
@@ -57,19 +54,32 @@ rule_id(r1; r2; r3; r4; r5).
 #show active/1.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% used to derive violating solutions
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 #program violations.
-
 :- not violating.
 ex(negative).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% example procedure.
+% 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% iter 1:
-% :- active(r1), active(r2).
-% iter 2:
+% iter 1 with n = 2:
+% :- active(r1), active(r2). 
+% yiels UNSAT
+
+% iter 2 with n = 3:
 % :- active(r2), active(r3).
-% iter 3:
+% yiels UNSAT
+
+% iter 3 with n = 4:
 % :- active(r1), active(r2), active(r4).
 % :- active(r1), active(r2), active(r5).
 % :- active(r1), active(r2), active(r3).
+% yields SAT with answer set: {active(r4), active(r5)}
+% in other words, the hypothesis H is the program:
+%   p :- not r.
+%   r :- not p.
+% which together with the background B = {q :- r} gives
+% answer sets that extends each positive example, and 
+% never extend any negative example. 
