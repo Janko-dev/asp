@@ -1,75 +1,16 @@
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% T_{meta}^n encoding with n = 2 of:
-% - B = {q <- r}
-% - E+ = {{p}, {q}}
-% - E- = {{p, q}}
-% - SM = {
-%     p;
-%     r;
-%     p <- r;
-%     p <- not r;
-%     r <- not p;
-% }
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-#program meta(n).
-% meta(B)
-e(q, X) :- e(r, X), ex(X).
 
-% meta(SM)
-e(p, X) :- active(r1), ex(X).
-e(r, X) :- active(r2), ex(X).
-e(p, X) :- e(r, X), active(r3), ex(X).
-e(p, X) :- not e(r, X), active(r4), ex(X).
-e(r, X) :- not e(p, X), active(r5), ex(X).
+% {p(a); p(b)} = 1.
+% % p(a)
+% % p(b)
 
-% meta(E+)
-ex(e1).
-ex(e2).
-:- not example_covered(e1).
-:- not example_covered(e2).
-example_covered(e1) :- e(p, e1).
-example_covered(e2) :- e(q, e2).
+% {p(c); p(b)} = 1.
+% % p(c)
+% % p(b)
 
-% meta(E-)
-violating :- e(p, negative), e(q, negative).
+% p(a;b;c).
 
-% meta(Aux, n)
-length(r1, 1).
-length(r2, 1).
-length(r3, 2).
-length(r4, 2).
-length(r5, 2).
+% r(a;b;d).
 
-:- #sum{ X, R : length(R, X), active(R) } != n.
+% q :- 2 { r(X) : p(X) }.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% To test whether rules from the search space SM are in the set of positive solutions.
-% input: active/1 with rule id. 
-% output unsat when there is no positive example that covers the rule.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-#program generate.
-rule_id(r1; r2; r3; r4; r5).
-
-{active(X) : rule_id(X)}.
-
-#show.
-#show active/1.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-#program violations.
-
-:- not violating.
-ex(negative).
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% iter 1:
-% :- active(r1), active(r2).
-% iter 2:
-% :- active(r2), active(r3).
-% iter 3:
-% :- active(r1), active(r2), active(r4).
-% :- active(r1), active(r2), active(r5).
-% :- active(r1), active(r2), active(r3).

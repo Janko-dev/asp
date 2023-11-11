@@ -1,22 +1,26 @@
-% background B
-lego_builder(alice).
-lego_builder(bob). 
-estate_agent(claire).
-estate_agent(dave).
 
-enjoys_lego(alice).
-enjoys_lego(claire).
+% background B
+num(1).
+num(2).
+num(3).
+num(4).
+
+part(1).
+part(2).
 
 % search space SM
-#modeh(happy(var(t1))).
-#modeb(3, lego_builder(var(t1))).
-#modeb(3, estate_agent(var(t1))).
-#modeb(3, enjoys_lego(var(t1))).
+#modeha(set(var(t1), const(number))).
+#constant(number, 1).
+#constant(number, 2).
+
+#modeb(num(var(t1))).
+#modeb(part(var(t1))).
+#modeb(set(var(t1))).
+#modec(neq(var(t1),var(t2))).
 
 % positive examples E+
-#pos({happy(alice)}, {}).
+#pos({set(1, 1), set(4, 1)}, {}).
+#pos({set(2, 2), set(3, 2)}, {}).
 
-% negative examples E-
-#neg({happy(bob)}, {}).
-#neg({happy(claire)}, {}).
-#neg({happy(dave)}, {}).
+% % negative examples E-
+#neg({set(1, 1), set(2, 1), set(3, 1)}, {}).
