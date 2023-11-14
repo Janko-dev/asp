@@ -42,34 +42,6 @@ class Rule:
     def __hash__(self) -> int:
         return hash((self.head, frozenset(self.body)))
 
-def lower_bound(prg0: "set[Rule]", I0: set) -> (set, set, bool):
-    I = copy.deepcopy(I0)
-    prg = copy.deepcopy(prg0)
-    while True:
-        T = copy.deepcopy(I)
-
-        prg = {r for r in prg if not r.falsified_by(I)}
-        for r in prg: r.remove_lit_from_body({i for i in I if i.positive == False})
-
-        for r in prg:
-            # rule 1:
-            if r.body.issubset(I): 
-                I.add(r.head)
-            
-
-        if T == I: break
-    
-    # if consistent
-    return (prg, I, True)
-
-def solver(I0, prg0) -> (set, bool):
-    I = copy.deepcopy(I0)
-    prg = copy.deepcopy(prg0)
-    (prg, I, X) = lower_bound(prg, I)
-    for r in prg: print(r)
-    print(I)
-
-
 def T_pi(prg: "set[Rule]", A: "set[Lit]"):
     for r in prg:
         if r.body.issubset(A):
@@ -82,18 +54,56 @@ def least(prg):
     while True:
         X0 = copy.deepcopy(X)
         X = T_pi(prg, X)
-
         if X == X0: break
     return X
 
+def reduct(prg: "set[Rule]", I: "set[Lit]"):
+    red_prog = set()
+    for r in prg:
+        if any([Lit.from_str(b.name) in I for b in r.body if not b.positive]):
+            continue
+        red_prog.add(Rule(r.head.name, {b.name for b in r.body if b.positive}))
+    return red_prog
+
+def expand(prg: "set[Rule]", L: "set[Lit]", U: "set[Lit]"):
+    while True:
+        L0 = copy.deepcopy(L)
+        U0 = copy.deepcopy(U)
+        L = L0.union(least(reduct(prg, U0)))
+        U = U0.intersection(least(reduct(prg, L0)))
+        if not L.issubset(U): 
+            print("FAILURE")
+            return (L, U)
+        if L == L0 and U == U0: break
+
+    return (L, U)
+
 prg = {
-    Rule("p", {}),
-    Rule("q", {"p"}),
-    Rule("r", {"p", "q"}),
+    Rule("a", {}),
+    Rule("b", {"a", "not c"}),
+    Rule("d", {"b", "not e"}),
+    Rule("e", {"not d"}),
 }
 
-A = least(prg)
-print(A)
-# for r in prg: print(r)
+Alphabet = {"a", "b", "c", "d", "e"}
+L = set()
+U = {Lit.from_str(a) for a in Alphabet}
 
-# solver(set(), prg)
+stable_models = []
+
+def solve(prg, L, U):
+    global stable_models
+    L, U = expand(prg, L, U)                # propagate
+    if not L.issubset(U):                   # failure
+        print("FAILURE")
+        return
+    # print(L, U)
+    if L == U: stable_models.append(L)      # success
+    else :
+        undef_atoms = U.difference(L)
+        a = undef_atoms.pop()               # choice
+        solve(prg, L.union({a}), U)         #   repeat solve(L+a, U)
+        solve(prg, L, U.difference({a}))    #   repeat solve(L, U-a)
+
+solve(prg, L, U)
+print(stable_models)
