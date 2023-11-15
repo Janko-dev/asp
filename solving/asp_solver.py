@@ -71,21 +71,30 @@ def expand(prg: "set[Rule]", L: "set[Lit]", U: "set[Lit]"):
         U0 = copy.deepcopy(U)
         L = L0.union(least(reduct(prg, U0)))
         U = U0.intersection(least(reduct(prg, L0)))
-        if not L.issubset(U): 
-            print("FAILURE")
+        if not L.issubset(U):
             return (L, U)
         if L == L0 and U == U0: break
 
     return (L, U)
 
-prg = {
-    Rule("a", {}),
-    Rule("b", {"a", "not c"}),
-    Rule("d", {"b", "not e"}),
-    Rule("e", {"not d"}),
-}
+# prg = {
+#     Rule("a", {}),
+#     Rule("b", {"a", "not c"}),
+#     Rule("d", {"b", "not e"}),
+#     Rule("e", {"not d"}),
+# }
+# Alphabet = {"a", "b", "c", "d", "e"}
 
-Alphabet = {"a", "b", "c", "d", "e"}
+prg = {
+    Rule("p", {"not p", "not s"}),
+    Rule("q", {"not r"}),
+    Rule("r", {"not p"}),
+    Rule("s", {"x", "w"}),
+    Rule("x", {"not p"}),
+    Rule("w", {"not p"})
+}
+Alphabet = {"p", "q", "r", "s", "x", "w"}
+
 L = set()
 U = {Lit.from_str(a) for a in Alphabet}
 
@@ -94,14 +103,15 @@ stable_models = []
 def solve(prg, L, U):
     global stable_models
     L, U = expand(prg, L, U)                # propagate
+    print(L, U)
     if not L.issubset(U):                   # failure
         print("FAILURE")
         return
-    # print(L, U)
     if L == U: stable_models.append(L)      # success
     else :
         undef_atoms = U.difference(L)
         a = undef_atoms.pop()               # choice
+        print("CHOICE: ", a)
         solve(prg, L.union({a}), U)         #   repeat solve(L+a, U)
         solve(prg, L, U.difference({a}))    #   repeat solve(L, U-a)
 

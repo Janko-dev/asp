@@ -1,15 +1,2 @@
-# asp
-Answer Set programming repo with notes and examples
-
-
-## examples
-
-### grid visualisation
-```bash
-$ examples/game_of_life/build.sh <ITERS>
-```
-
-### Exercise 9.2 of Gelfond and Kahl: Briefcase dynamic system
-```bash
-$ gelfond_kahl_exercises/ex9_2/run.sh
-```
+# Notes, examples, and algorithms for Answer Set Programming
+In this repository, I accumulated knowledge on the Answer Set Programming (ASP) paradigm. In the `notes` folder, a comprehensive document of lecture notes are provided, in which not only the formal aspects of ASP are described, such a solving and grounding, but also several applications are described, such as planning, diagnostics, and inductive learning. Furthermore, some of the exercises from the books on [Answer Set Programming](https://link.springer.com/book/10.1007/978-3-030-24658-7) by Lifschitz and the book, [knowledge Representation, and the Design of Intelligent Agents](https://www.cambridge.org/core/books/knowledge-representation-reasoning-and-the-design-of-intelligent-agents/E1F3DE4A4B1769D22207BC6A54221203), by Gelfond and Khal are included. The `examples` folder includes a lot of useful applications.
